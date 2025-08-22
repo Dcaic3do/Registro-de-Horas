@@ -18,11 +18,12 @@ public class PAT {
     @JsonIgnore
     private Long id_pat;
 
-    private String Nombre;
+    private String nombre;
 
-    private String Apellido;
+    private String apellido;
 
-    private String Id;
+    @Column(unique = true, nullable = false)
+    private String codigo;
 
     @OneToMany(mappedBy = "pat", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore

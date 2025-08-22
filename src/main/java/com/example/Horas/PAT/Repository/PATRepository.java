@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface PATRepository extends JpaRepository<PAT,String> {
-    Optional<PAT> findById(String Id);
+public interface PATRepository extends JpaRepository<PAT,Long> {
+    Optional<PAT> findByCodigo(String codigo);
 }

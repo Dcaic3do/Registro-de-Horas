@@ -11,41 +11,36 @@ import java.util.List;
 @RestController
 @RequestMapping("/pat")
 public class PATController {
-    private final PATService PatService;
-    private final PATRepository PatRepository;
+    private final PATService patService;
 
-    public PATController(PATService PatService, PATRepository PatRepository) {
-        this.PatService = PatService;
-        this.PatRepository = PatRepository;
+    public PATController(PATService patService) {
+        this.patService = patService;
     }
 
     @PostMapping("/guardar")
-    public ResponseEntity<PAT> guardarPAT(@RequestBody PAT Pat) {
-        return ResponseEntity.ok(PatService.guardar(Pat));
+    public ResponseEntity<PAT> guardar(@RequestBody PAT pat) {
+        return ResponseEntity.ok(patService.guardar(pat));
     }
 
     @GetMapping("/listar")
-    public ResponseEntity<List<PAT>> listarCategoria() {
-        return ResponseEntity.ok(PatService.listar());
+    public ResponseEntity<List<PAT>> listar() {
+        return ResponseEntity.ok(patService.listar());
     }
 
-    @GetMapping("/buscar/{Id}")
-    public ResponseEntity<PAT> buscarPATPorId(@PathVariable String Id) {
-        return PatService.BuscarPorId(Id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    @GetMapping("/buscar/{codigo}")
+    public ResponseEntity<PAT> buscarPorCodigo(@PathVariable String codigo) {
+        return ResponseEntity.ok(patService.buscarPorCodigo(codigo));
     }
 
-    @DeleteMapping("/eliminar/{Id}")
-    public ResponseEntity<Void> eliminarPAT(@PathVariable String Id) {
-        PatService.eliminar(Id);
-        return ResponseEntity.noContent().build();
+    @DeleteMapping("/eliminar/{codigo}")
+    public ResponseEntity<String> eliminarPorCodigo(@PathVariable String codigo) {
+        patService.eliminarPorCodigo(codigo);
+        return ResponseEntity.ok("PAT eliminado con éxito");
     }
 
-    @PutMapping("/actualizar/{Id}")
-    public ResponseEntity<PAT> actualizar(@PathVariable String Id, @RequestBody PAT Pat) {
-        Pat.setId(Id);
-        PAT PatActualizado = PatService.actualizar(Id, Pat);
-        return ResponseEntity.ok(PatActualizado);
+    @PutMapping("/actualizar/{codigo}")
+    public ResponseEntity<PAT> actualizarPorCodigo(@PathVariable String codigo, @RequestBody PAT pat) {
+        return ResponseEntity.ok(patService.actualizarPorCodigo(codigo, pat));
     }
 }
+
